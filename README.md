@@ -8,8 +8,11 @@ usage:
   >>> vdm = VDMC()
   >>> vdm("1+2")
   u'3'
+```
 
   or with a specification,
+
+```
   >>> from pyVDMC import VDMC
   >>> fib = VDMC("""
   /* fibonacci generator */
