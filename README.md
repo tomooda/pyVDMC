@@ -96,10 +96,12 @@ The `@vdm_test` decorator specifies that invoking this method will automatically
 2
 >>> f.next()
 3
+>>> f.next()
+5
+>>> f.prev()
+3
 >>> f.prev()
 2
->>> f.prev()
-1
 ```
 
 Enjoy!
