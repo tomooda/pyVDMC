@@ -6,4 +6,4 @@ setup(name='pyVDMC',
       author_email='tomohiro.tomo.oda@gmail.com',
       url='https://github.com/tomooda/pyVDMC',
       packages=['pyVDMC'],
-      requires=['requests>=2.6.2'])
+      install_requires=['requests'])

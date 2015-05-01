@@ -22,9 +22,6 @@ class fibonacci:
     @vdm_method
     def next(self):
         pass
-    @vdm_method
-    def next(self):
-        pass
     @vdm_test
     def prev(self):
         n = self.n2 - self.n1
