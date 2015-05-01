@@ -14,7 +14,7 @@ class fibonacci:
         post RESULT = n1~ + n2~ and n1 = n2~ and n2 = RESULT;
         prev : () ==> nat
         prev() == (dcl n : nat := n2 - n1; n2 := n1; n1 := n; return n2)
-        post n1 + n2 = n2~ and n2 = n1~;
+        post n1 + n2 = n2~ and n2 = n1~ and n2 = RESULT;
     """
     def __init__(self):
         self.n1 = 0
