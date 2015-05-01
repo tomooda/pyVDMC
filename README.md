@@ -45,7 +45,7 @@ Decorators are also available.
 (Because we haven't developed value mappers, only values whose expressions can be interpreted in both VDM-SL and python is supported. Such values include numbers and lists.)
 
 Here is another fibonacci example.
-```
+```python
 from pyVDMC import *
 
 @vdm_module('n1', 'n2')
@@ -70,9 +70,6 @@ class fibonacci:
     @vdm_method
     def next(self):
         pass
-    @vdm_method
-    def next(self):
-        pass
     @vdm_test
     def prev(self):
         n = self.n2 - self.n1
@@ -89,5 +86,20 @@ In this particular case, `next()` in VDM-SL is evaluated and the resulting nat n
 
 The `prev` method has a python implemenation.
 The `@vdm_test` decorator specifies that invoking this method will automatically evaluate the VDM-SL spec along with the python method, and all state variables and resulting value is compared with python's counterparts.
+
+```
+>>> from fibonacci import fibonacci
+>>> f = fibonacci()
+>>> f.next()
+1
+>>> f.next()
+2
+>>> f.next()
+3
+>>> f.prev()
+2
+>>> f.prev()
+1
+```
 
 Enjoy!
