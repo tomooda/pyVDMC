@@ -105,3 +105,6 @@ The `@vdm_test` decorator specifies that invoking this method will automatically
 ```
 
 Enjoy!
+
+---
+This project is partly supported by Grant-in-Aid Scientific Research (C) 26330099
