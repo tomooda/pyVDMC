@@ -1,7 +1,7 @@
 # pyVDMC
 pyVDMC is a VDMPad client library to animate VDM-SL specifications.
 
-usage:
+## VDMC object
 
 ```
   >>> from pyVDMC import VDMC
@@ -40,6 +40,8 @@ usage:
   >>> fib("next()")
   u'21'
 ```
+
+## DocString and Decorators
 
 Decorators are also available.
 (Because we haven't developed value mappers, only values whose expressions can be interpreted in both VDM-SL and python is supported. Such values include numbers and lists.)
