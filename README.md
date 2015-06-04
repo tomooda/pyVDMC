@@ -1,7 +1,7 @@
 # pyVDMC
 pyVDMC is a VDMPad client library to animate VDM-SL specifications.
 
-usage:
+## VDMC object
 
 ```
   >>> from pyVDMC import VDMC
@@ -41,6 +41,8 @@ usage:
   u'21'
 ```
 
+## DocString and Decorators
+
 Decorators are also available.
 (Because we haven't developed value mappers, only values whose expressions can be interpreted in both VDM-SL and python is supported. Such values include numbers and lists.)
 
@@ -62,7 +64,7 @@ class fibonacci:
         post RESULT = n1~ + n2~ and n1 = n2~ and n2 = RESULT;
         prev : () ==> nat
         prev() == (dcl n : nat := n2 - n1; n2 := n1; n1 := n; return n2)
-        post n1 + n2 = n2~ and n2 = n1~;
+        post n1 + n2 = n2~ and n2 = n1~ and n2 = RESULT;
     """
     def __init__(self):
         self.n1 = 0
@@ -105,3 +107,6 @@ The `@vdm_test` decorator specifies that invoking this method will automatically
 ```
 
 Enjoy!
+
+---
+This project is partly supported by Grant-in-Aid Scientific Research (C) 26330099
