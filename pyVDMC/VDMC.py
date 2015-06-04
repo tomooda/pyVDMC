@@ -3,8 +3,8 @@ from types import MethodType
 import requests
 import json
 
-#DEFAULT_SERVER = "http://vdmpad.csce.kyushu-u.ac.jp/"
-DEFAULT_SERVER = "http://localhost:8085/"
+DEFAULT_SERVER = "http://vdmpad.csce.kyushu-u.ac.jp/"
+#DEFAULT_SERVER = "http://localhost:8085/"
 
 class VDMError(Exception):
     pass
