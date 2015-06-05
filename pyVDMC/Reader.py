@@ -1,7 +1,8 @@
+from __future__ import absolute_import
 from math import *
-from VDMValue import *
+from .VDMValue import *
 
-class VDMCReader:
+class VDMReader:
     def __init__(self):
         self.specials = dict()
     def parse(self, string):
@@ -34,19 +35,19 @@ class VDMCReader:
     def _parseNil(self, source):
         if source.nextMatch("nil"):
             if VDM_NIL in self.specials:
-                self.specials[VDM_NIL]("nil")
+                self.specials[VDM_NIL](self, "nil")
             return None
         raise VDMSyntaxError("A value expected here:"+source.next(10))
     def _parseTrue(self, source):
         if source.nextMatch("true"):
             if VDM_TRUE in self.specials:
-                self.specials[VDM_NIL]("true")
+                self.specials[VDM_NIL](self, "true")
             return True
         raise VDMSyntaxError("A value expected here:"+source.next(10))
     def _parseFalse(self, source):
         if source.nextMatch("false"):
             if VDM_FALSE in self.specials:
-                self.specials[VDM_NIL]("false")
+                self.specials[VDM_NIL](self, "false")
             return False
         raise VDMSyntaxError("A value expected here:"+source.next(10))
     def _parseComposite(self, source):
@@ -68,18 +69,18 @@ class VDMCReader:
             if len(args) < 2:
                 raise VDMSyntaxError("A tuple must have more than one parameters: %s"%(args,))
             if VDM_TUPLE in self.specials:
-                return self.specials[VDM_TUPLE](args)
+                return self.specials[VDM_TUPLE](self, args)
             return tuple(args)
         if typeName == "token":
             if len(args) != 1:
                 raise VDMSyntaxError("A token must have only one parameters: %s"%(args,))
             if VDM_TOKEN in self.specials:
-                return self.specials[VDM_TOKEN](args[0])
+                return self.specials[VDM_TOKEN](self, args[0])
             return Token(args[0])
         if typeName in self.specials:
-            return self.specials[typeName](args)
+            return self.specials[typeName](self, args)
         if VDM_COMPOSITE in self.specials:
-            return self.specials[VDM_COMPOSITE](typeName, *args)
+            return self.specials[VDM_COMPOSITE](self, typeName, *args)
         return Composite(typeName, *args)
     def _parseSetOrMap(self, source):
         if not source.nextMatch('{'):
@@ -88,7 +89,7 @@ class VDMCReader:
         if source.peek() == '}':
             source.next()
             if VDM_SET in self.specials:
-                return self.specials[VDM_SET](list())
+                return self.specials[VDM_SET](self, list())
             return set()
         if source.peek() == '|':
             if not source.nextMatch('|->'):
@@ -97,7 +98,7 @@ class VDMCReader:
             if not source.nextMatch('}'):
                 raise VDMSyntaxError("Expected } : "+source.next(10))
             if VDM_MAP in self.specials:
-                return self.specials[VDM_MAP](list())
+                return self.specials[VDM_MAP](self, list())
             return dict()
         first = self._parse(source)
         source.skipSeparators()
@@ -123,7 +124,7 @@ class VDMCReader:
         if not source.nextMatch('}'):
             raise VDMSyntaxError("Expected } : "+source.next(10))
         if VDM_MAP in self.specials:
-            return self.specials[VDM_MAP](items)
+            return self.specials[VDM_MAP](self, items)
         return dict(items)
     def _parseSet(self, source, first):
         source.skipSeparators()
@@ -136,7 +137,7 @@ class VDMCReader:
         if not source.nextMatch('}'):
             raise VDMSyntaxError("Expected } : "+source.next(10))
         if VDM_SET in self.specials:
-            return self.specials[VDM_SET](items)
+            return self.specials[VDM_SET](self, items)
         return set(items)
     def _parseSeq(self, source):
         if not source.nextMatch("["):
@@ -153,7 +154,7 @@ class VDMCReader:
         if not source.nextMatch(']'):
             raise VDMSyntaxError("A comma or ] expected here: "+source.next(10))
         if VDM_SEQ in self.specials:
-            return self.specials[VDM_SEQ](args)
+            return self.specials[VDM_SEQ](self, args)
         return args
     def _parseQuote(self, source):
         if not source.nextMatch('<'):
@@ -163,7 +164,7 @@ class VDMCReader:
             if not (c.isalnum() or c == '_'):
                 raise VDMSyntaxError("Invalid character in a quote: "+source.next(10))
         if VDM_QUOTE in self.specials:
-            return self.specials[VDM_QUOTE](name)
+            return self.specials[VDM_QUOTE](self, name)
         return Quote(name)
     def _parseChar(self, source):
         if not source.nextMatch("'"):

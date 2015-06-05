@@ -13,6 +13,8 @@ class Composite:
         return len(self.args)
     def __getitem__(self, index):
         return self.args[index]
+    def __iter__(self):
+        return iter(self.args)
     def __eq__(self, obj):
         return self.__class__ == obj.__class__ and self.typeName == obj.typeName and self.args == obj.args
     def __lt__(self, obj):
@@ -83,7 +85,7 @@ class Quote:
     
 class Token:
     """
-    The Quote class is a container object for VDM's token type.
+    The Token class is a container object for VDM's token type.
     The repr method returns a python expression to construct the value, and
     the str method returns a VDM expression to construct the value.
     """
