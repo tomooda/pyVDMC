@@ -1,7 +1,11 @@
-from types import MethodType
+from __future__ import absolute_import
+from .Reader import *
+from .Writer import *
 
+from types import MethodType
 import requests
 import json
+
 
 DEFAULT_SERVER = "http://vdmpad.csce.kyushu-u.ac.jp/"
 #DEFAULT_SERVER = "http://localhost:8085/"
@@ -25,6 +29,7 @@ class VDMC:
         self.url = server+"eval"
         self.source = source
         self.states = states
+
     def eval(self, expr):
         data = self.states.copy()
         data['source'] = self.source
@@ -41,21 +46,27 @@ class VDMC:
         return result['value']
     __call__ = eval
 
-def vdm_module(*states):
+def vdm_module(*states, **kargs):
+    reader = kargs.get('reader', None)
+    if reader is None:
+        reader = VDMReader()
+    writer = kargs.get('writer', None)
+    if writer is None:
+        writer = VDMWriter()
     def _vdm_module(klass):
         spec = klass.__doc__
         vdm = VDMC(spec)
         def __to_vdm(self):
             for var in states:
-                vdm.states['DEFAULT`'+var] = str(getattr(self, var))
+                vdm.states['DEFAULT`'+var] = writer(getattr(self, var))
         def __eval_vdm(self, method, *args):
-            return eval(vdm(method.__name__ + '('+','.join([str(arg) for arg in args])+')'))
+            return reader(vdm(method.__name__ + '('+','.join([str(arg) for arg in args])+')'))
         def __from_vdm(self):
             for var in states:
-                setattr(self, var, eval(vdm.states['DEFAULT`'+var]))
+                setattr(self, var, reader(vdm.states['DEFAULT`'+var]))
         def __test_vdm(self):
             for var in states:
-                expected = eval(vdm.states['DEFAULT`'+var])
+                expected = reader(vdm.states['DEFAULT`'+var])
                 actual = getattr(self, var)
                 if actual != expected:
                     raise TestFailure("%s Expected: %s Actual %s"%(var, expected, actual), expected, actual)

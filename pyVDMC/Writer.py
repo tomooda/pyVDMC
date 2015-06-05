@@ -40,4 +40,4 @@ class VDMWriter:
             return "mk_"+obj.__class__.__name__+"("+",".join((self.stringify(arg) for arg in obj))+")"
         except AttributeError:
             return "mk_"+obj.__class__.__name__+"()"
-                
+    __call__ = stringify

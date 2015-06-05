@@ -7,6 +7,7 @@ class VDMReader:
         self.specials = dict()
     def parse(self, string):
         return self._parse(_Stream(string))
+    __call__ = parse
     def _parse(self, source):
         source.skipSeparators()
         char = source.peek()
