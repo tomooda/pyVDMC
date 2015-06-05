@@ -31,4 +31,11 @@ usage:
 Enjoy!
 """
 
-from VDMC import *
+import sys
+if sys.version_info > (3,):
+    from .VDMC import *
+    from .VDMValue import *
+else:
+    from VDMC import *
+    from VDMValue import *
+
