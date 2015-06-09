@@ -25,8 +25,7 @@ class fibonacci:
         generates the next fibonacci number
         """
         pass
-    #@vdm_test
-    @vdm_method
+    @vdm_test
     def prev(self):
         """
         rollbacks to the previous fibonacci number
