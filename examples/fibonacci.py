@@ -21,9 +21,16 @@ class fibonacci:
         self.n2 = 1
     @vdm_method
     def next(self):
+        """
+        generates the next fibonacci number
+        """
         pass
-    @vdm_test
+    #@vdm_test
+    @vdm_method
     def prev(self):
+        """
+        rollbacks to the previous fibonacci number
+        """
         n = self.n2 - self.n1
         self.n2 = self.n1
         self.n1 = n

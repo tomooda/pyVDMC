@@ -84,6 +84,7 @@ def vdm_method(method):
         RESULT = self.__eval_vdm(method, *args)
         self.__from_vdm()
         return RESULT
+    __eval.__doc__ = method.__doc__
     return __eval
 
 def vdm_test(method):
@@ -95,4 +96,5 @@ def vdm_test(method):
             raise TestFailed("Expected: %s Actual: %s"%(RESULT, result), RESULT, result)
         self.__test_vdm()
         return result
+    __test.__doc__ = method.__doc__
     return __test
